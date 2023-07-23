@@ -1,0 +1,20 @@
+CC = g++
+CFLAGS = -std=c++17 -Wall -Wextra
+LDFLAGS = -L. -lfile_search_lib
+
+all: libfile_search_lib.a app
+
+libfile_search_lib.a: file_search_lib.o
+    ar rcs $@ $<
+
+file_search_lib.o: file_search_lib.cpp file_search_lib.h
+    $(CC) $(CFLAGS) -c $< -o $@
+
+app: main.o
+    $(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+main.o: main.cpp file_search_lib.h
+    $(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+    rm -f *.o *.a app
